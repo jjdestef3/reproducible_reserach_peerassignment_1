@@ -62,7 +62,7 @@ names(avgSteps)[2] <- "mean"
 head(avgSteps)
 dim(avgSteps)
 
-ggplot(avgSteps, aes(interval, mean)) + geom_line(color = "blue", size = 0.7) + labs(title = "Time Series Plot of the 5-minute Interval by Steps Taken", x = "5-minute intervals", y = "Average Steps Taken")
+ggplot(avgSteps, aes(interval, mean)) + geom_line(color = "blue", size = 0.7) + labs(title = "Time Series Plot of the 5-minute Interval by Steps Taken", x = "5-minute intervals", y = "Average Steps Taken") + theme_stata()
 ```
 
 #### 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -163,13 +163,10 @@ head(newStepData)
 ```{r}
 meanNewStepData <- aggregate(newStepData$steps ~ newStepData$interval + newStepData$day, data = list(newStepData), FUN = "mean")
 names(meanNewStepData) <- c("interval", "day", "steps")
+meanNewStepData$day = as.factor(meanNewStepData$day)
 head(meanNewStepData)
 
 # graph
-ggplot(meanNewStepData, aes(interval, steps)) + 
-    geom_line() + 
-    facet_grid(day ~ .) +
-    xlab("5-minute interval") + 
-    ylab("Avarage steps")
+ggplot(meanNewStepData, aes(x=as.integer(interval), y=as.integer(steps), colour=day)) + geom_line() + labs(title = "Time Series Plot of the 5-minute Interval by Steps Taken", x = "5-minute interval", y = "Average Steps Taken") + theme_stata() + facet_grid(day ~ .)
 
 ```
